@@ -22,4 +22,6 @@ public interface TopicService {
     List<Topic> findAll();
 
     List<String> findTestsByTopic(String name);
+
+    Topic getById(Long id);
 }

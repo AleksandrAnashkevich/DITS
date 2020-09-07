@@ -29,7 +29,6 @@ public class TestController {
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public ModelAndView editTest() {
-        System.out.println("create");
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("topicList",topicService.findAll());
         modelAndView.setViewName("getTests");
@@ -39,9 +38,10 @@ public class TestController {
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public ModelAndView editQuestion() {
         ModelAndView modelAndView = new ModelAndView();
-        System.out.println("edit");
         modelAndView.addObject("topicList", topicService.findAll());
         modelAndView.setViewName("editQuestionsAndAnswers");
         return modelAndView;
     }
+
+
 }

@@ -15,6 +15,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Controller
 public class CreateController {
 
+    private TopicService topicService;
     private TestService testService;
     private QuestionService questionService;
     private AnswerService answerService;
@@ -42,6 +43,11 @@ public class CreateController {
     }
 
     @Autowired
+    public void setTopicService(TopicService topicService) {
+        this.topicService = topicService;
+    }
+
+    @Autowired
     public void setLinkService(LinkService linkService) {
         this.linkService = linkService;
     }
@@ -50,12 +56,7 @@ public class CreateController {
     @ResponseBody
     public List<Test> searchTest(@RequestParam(value = "id", required = false)
                                          Long id) {
-        List<Test> testList = testService.getByTopicId(id);
-        for (Test test : testList
-        ) {
-            System.out.println(test.getId() + " " + test.getDescription() + " " + test.getName());
-        }
-        return testList;
+        return testService.getByTopicId(id);
     }
 
     @RequestMapping(value = "/getTest", method = RequestMethod.GET)
@@ -158,12 +159,17 @@ public class CreateController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/addLink/{id}/{testId}", method = RequestMethod.GET)
-    public ModelAndView addLinkPage(@PathVariable(value = "id") Long id,
-                                    @PathVariable(value = "testId") Long testId) {
+    @RequestMapping(value = "/addTest", method = RequestMethod.POST)
+    public ModelAndView addTest(@RequestParam("name") String name,
+                                @RequestParam("description") String description,
+                                @RequestParam("topics") long id) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("literature", literatureService.getById(id));
-        modelAndView.setViewName("addLink");
+        Test test = new Test();
+        test.setName(name);
+        test.setDescription(description);
+        test.setTopic(topicService.getById(id));
+        testService.add(test);
+        modelAndView.setViewName("redirect:/tests/create");
         return modelAndView;
     }
 }

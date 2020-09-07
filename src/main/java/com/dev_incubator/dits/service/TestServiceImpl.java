@@ -64,4 +64,9 @@ public class TestServiceImpl implements TestService {
     public List<Test> getByTopicIdForEdit(long id) {
         return testRepository.getByTopicIdForEdit(id);
     }
+
+    @Override
+    public void add(Test test) {
+        testRepository.save(test);
+    }
 }

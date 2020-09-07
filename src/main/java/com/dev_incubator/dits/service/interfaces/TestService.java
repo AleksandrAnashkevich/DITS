@@ -23,4 +23,6 @@ public interface TestService {
     List<Test> getByTopicId(long id);
 
     List<Test> getByTopicIdForEdit(long id);
+
+    void add(Test test);
 }
